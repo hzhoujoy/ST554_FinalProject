@@ -31,10 +31,11 @@ print("Rows loaded:", data.shape[0])
 print(f"Starting streaming simulation for 20 iterations, sampling 5 rows each.")
 
 for i in range(20):    
-    temp = data.sample(n=5)                               #Randomly sample 5 rows from the dataset  
-    out_file = os.path.join(output_dir, f"power{i}.csv")  # Build output file path
-    temp.to_csv(out_file, index=False)                    # Write sampled data to CSV
+    temp = data.sample(n=5)                                              #Randomly sample 5 rows from the dataset  
+    temp["timestamp"] = [time.strftime("%H:%M:%S", time.localtime())]*5  #Create a timestamp
+    out_file = os.path.join(output_dir, f"power{i}.csv")                 #Build output file path
+    temp.to_csv(out_file, index=False)                                   #Write sampled data to CSV
     print("Written:", out_file)
-    time.sleep(20)                                        # Pause to simulate micro-batch arrival
+    time.sleep(20)                                                       #Pause to simulate micro-batch arrival
 
 print("Streaming simulation complete.")
